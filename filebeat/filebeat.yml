@@ -1,0 +1,25 @@
+############################# Filebeat ######################################
+filebeat:
+  prospectors:
+    -
+      paths:
+        #- /var/lib/volumes/results/_data/*.csv
+        - /results/*.csv
+      # Ignore the first line with column headings
+      exclude_lines: ["^timeStamp,"]
+
+      type: log
+      fields:
+        build_id: 000000
+        application: Undefined
+        scenario: Perftest
+      fields_under_root: true
+      document_type: perfresults
+output.elasticsearch:
+    hosts: ["${eshost}"]
+    template.enabled: false
+    pipeline: "parsejmetercsv"
+shipper:
+logging:
+  files:
+    rotateeverybytes: 10485760

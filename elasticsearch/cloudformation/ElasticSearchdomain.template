@@ -1,0 +1,139 @@
+    {
+    "AWSTemplateFormatVersion": "2010-09-09",
+        "Description": "Creates a stack for ElasticSearch ",
+        "Metadata": {
+
+        },
+        "Parameters": {
+
+        },
+        "Mappings": {
+            "Environment": {
+                "Config": {
+                  "ESResource":"arn:aws:es:us-west-2:500238854089:domain/a0086-sc-poc-perf-*/*",
+                  "ESDomainName": "a0086-sc-poc-perf-logs",
+                  "ESInstanceType":"t2.medium.elasticsearch",
+                  "ESInstanceCount":"2",
+                  "ESVersion": "6.0",
+                  "VpcId":"vpc-b67a82d3"
+                }
+              },
+            "Common": {
+                "Constant": {
+                  "CostCenter": "4540",
+                  "OwnerEmail": "availmod@nordstrom.com"
+                }
+              }
+
+        },
+        "Resources": {
+            "ElasticsearchDomain": {
+                "Type" : "AWS::Elasticsearch::Domain",
+                "Properties" : {
+                  "DomainName": {
+                      "Fn::FindInMap": [
+                          "Environment",
+                          "Config",
+                          "ESDomainName"
+                      ]
+                  },
+                  "ElasticsearchVersion" : {
+                  "Fn::FindInMap": [
+                      "Environment",
+                      "Config",
+                      "ESVersion"
+                  ]
+                  },
+                  "AccessPolicies" : {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                      {
+                        "Sid": "",
+                        "Effect": "Allow",
+                        "Principal": {
+                          "AWS": "*"
+                        },
+                        "Action": "es:*",
+                        "Resource": {
+                          "Fn::FindInMap": [
+                            "Environment",
+                            "Config",
+                            "ESResource"
+                          ]
+                        },
+                        "Condition": {
+                          "IpAddress": {
+                            "aws:SourceIp": [
+                                "34.208.30.85/32",
+                                "35.162.171.129/32",
+                                "35.164.174.240/32",
+                                "54.68.143.213/32",
+                                "52.32.77.232/32",
+                                "52.24.252.10/32",
+                                "52.89.85.74/32",
+                                "52.89.119.25/32",
+                                "52.35.174.120/32",
+                                "35.165.207.240",
+                                "35.163.240.235"
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "ElasticsearchClusterConfig" : {
+                    "InstanceCount": {
+                      "Fn::FindInMap": [
+                        "Environment",
+                        "Config",
+                        "ESInstanceCount"
+                      ]
+                    },
+                    "InstanceType" : {
+                      "Fn::FindInMap": [
+                        "Environment",
+                        "Config",
+                        "ESInstanceType"
+                      ]
+                    },
+                    "ZoneAwarenessEnabled": false
+                  },
+                  "EBSOptions": {
+                    "EBSEnabled": "true",
+                    "VolumeType": "standard",
+                    "VolumeSize": "35"
+                  },
+                  "SnapshotOptions" : {
+                    "AutomatedSnapshotStartHour" : 10
+                  },
+                  "Tags" : [
+                    {
+                      "Key": "Owner",
+                      "Value": {
+                        "Fn::FindInMap": [
+                          "Common",
+                          "Constant",
+                          "OwnerEmail"
+                        ]
+                      }
+                    },
+                    {
+                      "Key": "CostCenter",
+                      "Value": {
+                        "Fn::FindInMap": [
+                          "Common",
+                          "Constant",
+                          "CostCenter"
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+
+
+        },
+        "Outputs": {
+
+        }
+    }

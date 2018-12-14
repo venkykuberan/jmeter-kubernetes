@@ -1,0 +1,30 @@
+{
+    "description": "Parsing the Jmeter Results log",
+    "processors": [
+      {
+        "grok": {
+          "field": "message",
+          "patterns": [
+            "%{DATA:timeStamp},%{NUMBER:elapsedtime},%{DATA:Transaction},%{NUMBER:responsecode},%{DATA:responsemessage},%{DATA},%{DATA},%{DATA},%{DATA:bytes},%{DATA},%{DATA},%{DATA}"
+          ]
+        }
+      },
+      {
+         "convert": {
+           "field" : "responsecode",
+           "type": "integer"
+         }
+       },
+      {
+         "convert": {
+           "field" : "elapsedtime",
+           "type": "float"
+         }
+       },
+      {
+        "remove": {
+          "field": "message"
+        }
+      }
+    ]
+   }
