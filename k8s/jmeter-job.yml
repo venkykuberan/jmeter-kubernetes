@@ -12,7 +12,7 @@ spec:
     spec:
       containers:
         - name: client-get
-          image: 500238854089.dkr.ecr.us-west-2.amazonaws.com/a0086-scatest/jmeter:test
+          image: xxxxx.dkr.ecr.us-west-2.amazonaws.com/xxx-scatest/jmeter:test
           env:
           - name: duration
             value: "3000"
@@ -21,10 +21,10 @@ spec:
             mountPath: /jmeter/apache-jmeter-2.13/results
 
         - name: filebeat
-          image: 500238854089.dkr.ecr.us-west-2.amazonaws.com/a0086-scatest/filebeat:latest
+          image: xxxx.dkr.ecr.us-west-2.amazonaws.com/xxx-scatest/filebeat:latest
           env:
           - name: eshost
-            value: search-a0086-sc-poc-perf-logs-apx24iviu55xhbjfos75yjr53m.us-west-2.es.amazonaws.com:80
+            value: search-xxx-sc-poc-perf-logs-xxxx.us-west-2.es.amazonaws.com:80
           volumeMounts:
           - name: results-data
             mountPath: /results
