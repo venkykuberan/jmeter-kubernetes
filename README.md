@@ -19,7 +19,7 @@ These instructions will get you setup kuebernetes pods with jmeter and filebeat 
 
  - filebeat -- Run the docker file under filbeat folder and push it to AWS ECS (you can push it any docker repo like dockerhub.com but make sure you give the right address of your image in jmeter-job.yml)
 
- - kubernetes -- create kubernetes account for your team. Reach out to Nordstrom Kubernetes team through "**kubernetes**" slack channel 
+ - kubernetes -- Create a kubernetes cluster for your team. Reach out to your Kubernetes team if you have one for your namespace in the cluster
 
  - elasticsearch 
     * Run the cloudformation template under elasticsearch/cloudformation folder in AWS Console or using AWS cli to create elasticsearch template. Make sure you use your team's account
